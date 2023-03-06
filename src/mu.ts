@@ -1,4 +1,4 @@
-import { serve } from './deps.ts';
+import { http } from '../deps.ts';
 
 type Handler<TRequest, TResponse> = (req: TRequest) => TResponse;
 type HttpHandler = (req: Request) => Response;
@@ -21,6 +21,6 @@ export class Mu {
     }
 
     static async start(handler: HttpHandler | AsyncHttpHandler) {
-        await serve(handler);
+        await http.serve(handler);
     }
 }
