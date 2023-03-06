@@ -1,4 +1,4 @@
-import { Mu } from "../src/mu.ts";
+import { Mu } from '../src/mu.ts';
 
 interface Example {
     message: string;
@@ -10,10 +10,10 @@ interface RespMessage {
 
 const getMessageBack = (req: Example): RespMessage => {
     return {
-        messageBack: req.message
-    }
-}
+        messageBack: req.message,
+    };
+};
 
-const handler = Mu.handle(getMessageBack)
+const handler = Mu.handle(getMessageBack);
 
 await Mu.start(handler);
