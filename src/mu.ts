@@ -1,17 +1,24 @@
-import { serve } from "https://deno.land/std@0.178.0/http/server.ts";
+import { serve } from "./deps.ts";
+
+type Handler<TRequest, TResponse> = (req: TRequest) => TResponse
 
 export class Mu {
-    static async start() {
-        const handler = (): Response => {
+    static handle<TRequest, TResponse>(h: Handler<TRequest, TResponse>) : (req: Request) => Promise<Response> {
+        return async (req: Request): Promise<Response> => {
+            const body = await req.json()as TRequest
+            const output = h(body);
             return new Response(
-                JSON.stringify({ message: "Hello from Mu!"}),
+                JSON.stringify(output),
                 {
-                    status: 200,
-                    headers: { "content-type": "application/json"}
+                    headers: {
+                        "content-type": "application/json"
+                    }
                 }
             );
         }
+    }
 
+    static async start(handler: (req: Request) => Promise<Response>) {
         await serve(handler);
     }
 }
