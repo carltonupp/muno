@@ -8,10 +8,12 @@ interface RespMessage {
     messageBack: string;
 }
 
-const handler = Mu.handle((req: Example) : RespMessage => {
+const getMessageBack = (req: Example): RespMessage => {
     return {
         messageBack: req.message
     }
-})
+}
+
+const handler = Mu.handle(getMessageBack)
 
 await Mu.start(handler);
