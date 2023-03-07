@@ -1,5 +1,5 @@
 import { http } from './deps.ts';
-import { Router } from './src/router/router.ts';
+import { Router } from './router/router.ts';
 
 interface MuConfiguration {
     port: number;

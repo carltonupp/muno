@@ -1,4 +1,4 @@
-import { http } from '../deps.ts';
+import { http } from './deps.ts';
 
 type Handler<TRequest, TResponse> = (req: TRequest) => TResponse;
 

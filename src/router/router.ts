@@ -1,4 +1,4 @@
-import { http } from '../../deps.ts';
+import { http } from '../deps.ts';
 
 type HTTPMethod =
     | 'GET'
@@ -42,6 +42,19 @@ export class Router {
             methods,
             handler,
         });
+    }
+
+    handler(): http.Handler {
+        return (req: Request, conninfo: http.ConnInfo) => {
+            const mapping = this.resolve(req.method, req.url);
+            if (!mapping) {
+                return new Response('', {
+                    status: 404,
+                });
+            }
+
+            return mapping.handler(req, conninfo);
+        };
     }
 
     get(path: string, handler: http.Handler) {

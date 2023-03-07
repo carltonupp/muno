@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows, describe, it } from '../../test-deps.ts';
+import { assertEquals, assertThrows, describe, it } from '../test-deps.ts';
 import { Router } from './router.ts';
 
 describe('Router', () => {
