@@ -1,19 +1,10 @@
-import { Mu } from '../src/mu.ts';
+import { http } from '../src/deps.ts';
+import { Router } from '../src/router/router.ts';
 
-interface Example {
-    message: string;
-}
+const router = new Router();
 
-interface RespMessage {
-    messageBack: string;
-}
+router.get('/?name', (_req: Request) => {
+    return new Response('Hello, World!');
+});
 
-const getMessageBack = (req: Example): RespMessage => {
-    return {
-        messageBack: req.message,
-    };
-};
-
-const handler = Mu.handle(getMessageBack);
-
-await Mu.start(handler);
+http.serve(router.handler());

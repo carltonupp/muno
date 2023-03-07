@@ -1,3 +1,4 @@
-# Mu
+# Muno
 
-Mu is a microframework that enables the building of http services on Deno.
+Muno is a conceptual microframework that enables the building of http services
+on Deno.
