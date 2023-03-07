@@ -17,7 +17,7 @@ interface RouteMapping {
 export class Router {
     private mappings = new Map<string, RouteMapping>();
 
-    resolve(method: HTTPMethod, url: string): RouteMapping | undefined {
+    resolve(method: string, url: string): RouteMapping | undefined {
         for (const [path, mapping] of this.mappings) {
             const pattern = new URLPattern({ pathname: path });
             if (pattern.test(url)) {
