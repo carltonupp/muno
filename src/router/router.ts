@@ -4,7 +4,7 @@ interface RouterConfig {
     mappings: RouteMapping[];
 }
 
-type HTTPMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
+type HTTPMethod = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 interface RouteMapping {
     path: string;

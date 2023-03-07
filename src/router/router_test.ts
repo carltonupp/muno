@@ -5,13 +5,13 @@ describe('Router', () => {
     const router = new Router({
         mappings: [{
             path: '/users',
-            methods: ['get'],
+            methods: ['GET'],
             handler: (_req: Request) => {
                 return new Response('hello, world');
             },
         }, {
             path: '/users/:id',
-            methods: ['get'],
+            methods: ['GET'],
             handler: (_req: Request) => {
                 return new Response('hello, world');
             },
@@ -20,16 +20,16 @@ describe('Router', () => {
 
     it('returns a handler with the correct method and path', () => {
         const handler = router.resolve(
-            'get',
+            'GET',
             'https://example.com/users/123',
         );
 
-        assertEquals(handler?.methods, ['get']);
+        assertEquals(handler?.methods, ['GET']);
         assertEquals(handler?.path, '/users/:id');
     });
 
     it('returns undefined if a handler cannot be resolved', () => {
-        const handler = router.resolve('post', 'https://example.com/users/123');
+        const handler = router.resolve('POST', 'https://example.com/users/123');
         assertEquals(handler, undefined);
     });
 });
