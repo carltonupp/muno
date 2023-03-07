@@ -6,13 +6,13 @@ describe('Router', () => {
         mappings: [{
             path: '/users',
             methods: ['get'],
-            handler: (_req) => {
+            handler: (_req: Request) => {
                 return new Response('hello, world');
             },
         }, {
             path: '/users/:id',
             methods: ['get'],
-            handler: (_req) => {
+            handler: (_req: Request) => {
                 return new Response('hello, world');
             },
         }],
