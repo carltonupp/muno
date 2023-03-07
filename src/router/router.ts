@@ -17,18 +17,23 @@ interface RouteMapping {
 export class Router {
     private mappings = new Map<string, RouteMapping>();
 
-    resolve(method: string, url: string): RouteMapping | undefined {
+    resolve(
+        request: Request,
+        connInfo: http.ConnInfo,
+    ): Response | Promise<Response> {
         for (const [path, mapping] of this.mappings) {
             const pattern = new URLPattern({ pathname: path });
-            if (pattern.test(url)) {
-                if (mapping.methods.includes(method)) {
-                    return mapping;
+            if (pattern.test(request.url)) {
+                if (mapping.methods.includes(request.method)) {
+                    return mapping.handler(request, connInfo);
                 }
             }
         }
+
+        return new Response(null, { status: 404 });
     }
 
-    handle(path: string, handler: http.Handler, ...methods: HTTPMethod[]) {
+    mapRoute(path: string, handler: http.Handler, ...methods: HTTPMethod[]) {
         if (!path) {
             throw new Error('Path is required');
         }
@@ -44,36 +49,23 @@ export class Router {
         });
     }
 
-    handler(): http.Handler {
-        return (req: Request, conninfo: http.ConnInfo) => {
-            const mapping = this.resolve(req.method, req.url);
-            if (!mapping) {
-                return new Response('', {
-                    status: 404,
-                });
-            }
-
-            return mapping.handler(req, conninfo);
-        };
-    }
-
     get(path: string, handler: http.Handler) {
-        this.handle(path, handler, 'GET');
+        this.mapRoute(path, handler, 'GET');
     }
 
     post(path: string, handler: http.Handler) {
-        this.handle(path, handler, 'POST');
+        this.mapRoute(path, handler, 'POST');
     }
 
     put(path: string, handler: http.Handler) {
-        this.handle(path, handler, 'PUT');
+        this.mapRoute(path, handler, 'PUT');
     }
 
     patch(path: string, handler: http.Handler) {
-        this.handle(path, handler, 'PATCH');
+        this.mapRoute(path, handler, 'PATCH');
     }
 
     delete(path: string, handler: http.Handler) {
-        this.handle(path, handler, 'DELETE');
+        this.mapRoute(path, handler, 'DELETE');
     }
 }

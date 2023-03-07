@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows, describe, it } from '../test-deps.ts';
+import { assertThrows, describe, it } from '../test-deps.ts';
 import { Router } from '../../src/router/router.ts';
 
 describe('Router', () => {
@@ -12,30 +12,10 @@ describe('Router', () => {
         return new Response('hello, world');
     });
 
-    describe('resolve', () => {
-        it('returns a handler with the correct method and path', () => {
-            const handler = router.resolve(
-                'GET',
-                'https://example.com/users/123',
-            );
-
-            assertEquals(handler?.methods, ['GET']);
-            assertEquals(handler?.path, '/users/:id');
-        });
-
-        it('returns undefined if a handler cannot be resolved', () => {
-            const handler = router.resolve(
-                'POST',
-                'https://example.com/users/123',
-            );
-            assertEquals(handler, undefined);
-        });
-    });
-
-    describe('handle', () => {
+    describe('route mapping', () => {
         it('throws an error if path is empty', () => {
             assertThrows(() => {
-                router.handle('', (_req: Request): Response => {
+                router.mapRoute('', (_req: Request): Response => {
                     return new Response();
                 }, 'GET');
             });
@@ -43,7 +23,7 @@ describe('Router', () => {
 
         it('throws an error if methods is empty', () => {
             assertThrows(() => {
-                router.handle('/users/:id', (_req: Request): Response => {
+                router.mapRoute('/users/:id', (_req: Request): Response => {
                     return new Response();
                 });
             });
