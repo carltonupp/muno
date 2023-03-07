@@ -1,9 +1,5 @@
 import { http } from '../../deps.ts';
 
-interface RouterConfig {
-    mappings: RouteMapping[];
-}
-
 type HTTPMethod =
     | 'GET'
     | 'HEAD'
