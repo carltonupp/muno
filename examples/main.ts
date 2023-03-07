@@ -1,9 +1,9 @@
 import { http } from '../src/deps.ts';
-import { Router } from '../src/router/router.ts';
+import { Router } from 'https://deno.land/x/muno@v0.1.0/router/router.ts';
 
 const router = new Router();
 
-router.get('/?name', (_req: Request) => {
+router.get('/', (_req: Request) => {
     return new Response('Hello, World!');
 });
 

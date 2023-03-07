@@ -29,6 +29,8 @@
     "https://deno.land/std@0.178.0/testing/_format.ts": "a69126e8a469009adf4cf2a50af889aca364c349797e63174884a52ff75cf4c7",
     "https://deno.land/std@0.178.0/testing/_test_suite.ts": "30f018feeb3835f12ab198d8a518f9089b1bcb2e8c838a8b615ab10d5005465c",
     "https://deno.land/std@0.178.0/testing/asserts.ts": "984ab0bfb3faeed92ffaa3a6b06536c66811185328c5dd146257c702c41b01ab",
-    "https://deno.land/std@0.178.0/testing/bdd.ts": "c5ca6d85940dbcc19b4d2bc3608d49ab65d81470aa91306d5efa4b0d5c945731"
+    "https://deno.land/std@0.178.0/testing/bdd.ts": "c5ca6d85940dbcc19b4d2bc3608d49ab65d81470aa91306d5efa4b0d5c945731",
+    "https://deno.land/x/muno@v0.1.0/deps.ts": "5a74593b504b16b60179b936a8eea4c7bc3b416e16bcb7f445106cbf2440d4e4",
+    "https://deno.land/x/muno@v0.1.0/router/router.ts": "9a7ead2bc97663885a09341a638f05ad3f24fdd964ae0fea4475e027d9f12e45"
   }
 }
