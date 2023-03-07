@@ -35,15 +35,15 @@ describe('Router', () => {
     describe('handle', () => {
         it('throws an error if path is empty', () => {
             assertThrows(() => {
-                router.handle('', ['GET'], (_req: Request): Response => {
+                router.handle('', (_req: Request): Response => {
                     return new Response();
-                });
+                }, 'GET');
             });
         });
 
         it('throws an error if methods is empty', () => {
             assertThrows(() => {
-                router.handle('/users/:id', [], (_req: Request): Response => {
+                router.handle('/users/:id', (_req: Request): Response => {
                     return new Response();
                 });
             });

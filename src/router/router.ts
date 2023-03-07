@@ -28,7 +28,7 @@ export class Router {
         }
     }
 
-    handle(path: string, methods: HTTPMethod[], handler: http.Handler) {
+    handle(path: string, handler: http.Handler, ...methods: HTTPMethod[]) {
         if (!path) {
             throw new Error('Path is required');
         }
@@ -45,22 +45,22 @@ export class Router {
     }
 
     get(path: string, handler: http.Handler) {
-        this.handle(path, ['GET'], handler);
+        this.handle(path, handler, 'GET');
     }
 
     post(path: string, handler: http.Handler) {
-        this.handle(path, ['POST'], handler);
+        this.handle(path, handler, 'POST');
     }
 
     put(path: string, handler: http.Handler) {
-        this.handle(path, ['PUT'], handler);
+        this.handle(path, handler, 'PUT');
     }
 
     patch(path: string, handler: http.Handler) {
-        this.handle(path, ['PATCH'], handler);
+        this.handle(path, handler, 'PATCH');
     }
 
     delete(path: string, handler: http.Handler) {
-        this.handle(path, ['DELETE'], handler);
+        this.handle(path, handler, 'DELETE');
     }
 }
