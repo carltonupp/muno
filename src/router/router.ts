@@ -27,24 +27,13 @@ export class Router {
     }
 
     resolve(method: HTTPMethod, url: string): RouteMapping | undefined {
-        // find a mapping that matches the url
-        const mapping = Array.from(this.mappings.keys())
-            .filter((m) => {
-                const pattern = new URLPattern({ pathname: m });
-                return pattern.test(url);
-            }).pop();
-
-        if (!mapping) {
-            return undefined;
+        for (const [path, mapping] of this.mappings) {
+            const pattern = new URLPattern({ pathname: path });
+            if (pattern.test(url)) {
+                if (mapping.methods.includes(method)) {
+                    return mapping;
+                }
+            }
         }
-
-        const handler = this.mappings.get(mapping);
-
-        // check the mappings supports the http method
-        if (handler?.methods.includes(method)) {
-            return handler;
-        }
-
-        return undefined;
     }
 }
