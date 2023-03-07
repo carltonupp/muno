@@ -1,5 +1,5 @@
 import { assertEquals, assertThrows, describe, it } from '../test-deps.ts';
-import { Router } from './router.ts';
+import { Router } from '../../src/router/router.ts';
 
 describe('Router', () => {
     const router = new Router();
