@@ -1,35 +1,52 @@
-import { assertEquals, describe, it } from '../../test-deps.ts';
+import { assertEquals, assertThrows, describe, it } from '../../test-deps.ts';
 import { Router } from './router.ts';
 
 describe('Router', () => {
-    const router = new Router({
-        mappings: [{
-            path: '/users',
-            methods: ['GET'],
-            handler: (_req: Request) => {
-                return new Response('hello, world');
-            },
-        }, {
-            path: '/users/:id',
-            methods: ['GET'],
-            handler: (_req: Request) => {
-                return new Response('hello, world');
-            },
-        }],
+    const router = new Router();
+
+    router.get('/users', (_req: Request) => {
+        return new Response('hello, world');
     });
 
-    it('returns a handler with the correct method and path', () => {
-        const handler = router.resolve(
-            'GET',
-            'https://example.com/users/123',
-        );
-
-        assertEquals(handler?.methods, ['GET']);
-        assertEquals(handler?.path, '/users/:id');
+    router.get('/users/:id', (_req: Request) => {
+        return new Response('hello, world');
     });
 
-    it('returns undefined if a handler cannot be resolved', () => {
-        const handler = router.resolve('POST', 'https://example.com/users/123');
-        assertEquals(handler, undefined);
+    describe('resolve', () => {
+        it('returns a handler with the correct method and path', () => {
+            const handler = router.resolve(
+                'GET',
+                'https://example.com/users/123',
+            );
+
+            assertEquals(handler?.methods, ['GET']);
+            assertEquals(handler?.path, '/users/:id');
+        });
+
+        it('returns undefined if a handler cannot be resolved', () => {
+            const handler = router.resolve(
+                'POST',
+                'https://example.com/users/123',
+            );
+            assertEquals(handler, undefined);
+        });
+    });
+
+    describe('handle', () => {
+        it('throws an error if path is empty', () => {
+            assertThrows(() => {
+                router.handle('', ['GET'], (_req: Request): Response => {
+                    return new Response();
+                });
+            });
+        });
+
+        it('throws an error if methods is empty', () => {
+            assertThrows(() => {
+                router.handle('/users/:id', [], (_req: Request): Response => {
+                    return new Response();
+                });
+            });
+        });
     });
 });

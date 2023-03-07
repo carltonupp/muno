@@ -20,11 +20,6 @@ interface RouteMapping {
 
 export class Router {
     private mappings = new Map<string, RouteMapping>();
-    constructor(cfg: RouterConfig) {
-        cfg.mappings.forEach((mapping) => {
-            this.mappings.set(mapping.path, mapping);
-        });
-    }
 
     resolve(method: HTTPMethod, url: string): RouteMapping | undefined {
         for (const [path, mapping] of this.mappings) {
@@ -35,5 +30,41 @@ export class Router {
                 }
             }
         }
+    }
+
+    handle(path: string, methods: HTTPMethod[], handler: http.Handler) {
+        if (!path) {
+            throw new Error('Path is required');
+        }
+
+        if (!methods.length) {
+            throw new Error('Must provide at least one method');
+        }
+
+        this.mappings.set(path, {
+            path,
+            methods,
+            handler,
+        });
+    }
+
+    get(path: string, handler: http.Handler) {
+        this.handle(path, ['GET'], handler);
+    }
+
+    post(path: string, handler: http.Handler) {
+        this.handle(path, ['POST'], handler);
+    }
+
+    put(path: string, handler: http.Handler) {
+        this.handle(path, ['PUT'], handler);
+    }
+
+    patch(path: string, handler: http.Handler) {
+        this.handle(path, ['PATCH'], handler);
+    }
+
+    delete(path: string, handler: http.Handler) {
+        this.handle(path, ['DELETE'], handler);
     }
 }
