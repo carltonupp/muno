@@ -21,9 +21,9 @@ interface RouteMapping {
 export class Router {
     private mappings = new Map<string, RouteMapping>();
     constructor(cfg: RouterConfig) {
-        for (const mapping of cfg.mappings) {
+        cfg.mappings.forEach((mapping) => {
             this.mappings.set(mapping.path, mapping);
-        }
+        });
     }
 
     resolve(method: HTTPMethod, url: string): RouteMapping | undefined {
