@@ -1,5 +1,4 @@
-import { http } from '../src/deps.ts';
-import { Router } from 'https://deno.land/x/muno@v0.1.0/router/router.ts';
+import { http, Router } from './deps.ts';
 
 const router = new Router();
 
