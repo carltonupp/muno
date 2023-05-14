@@ -17,16 +17,39 @@ type RouteMapping = {
     handler: RequestHandler;
 };
 
-const createRoute = (
+export function createRoute(
     method: HTTPMethod,
     route: string,
     handler: RequestHandler,
-): RouteMapping => {
+): RouteMapping {
     return {
         method,
         route,
         handler,
     };
-};
+}
 
-let idx = createRoute('GET', '/', (req) => Response.json(req.headers));
+class Router {
+    private readonly _routes: RouteMapping[];
+    constructor(routes: RouteMapping[]) {
+        this._routes = routes;
+    }
+
+    resolve(req: Request): RouteMapping {
+        const path = new URL(req.url).pathname;
+        return this._routes.find((r) =>
+            r.route === path && r.method === req.method
+        ) || createRoute(
+            req.method as HTTPMethod,
+            req.url,
+            () =>
+                Response.json({}, {
+                    status: 404,
+                }),
+        );
+    }
+}
+
+export function createRouterFromRoutes(...routes: RouteMapping[]): Router {
+    return new Router(routes);
+}
