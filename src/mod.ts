@@ -1,30 +1,32 @@
-import { http } from './deps.ts';
-import { Router } from './router/router.ts';
+export type HTTPMethod =
+    | 'GET'
+    | 'HEAD'
+    | 'POST'
+    | 'PUT'
+    | 'DELETE'
+    | 'CONNECT'
+    | 'OPTIONS'
+    | 'TRACE'
+    | 'PATCH';
 
-interface MuConfiguration {
-    port: number;
-    router: Router;
-}
+type RequestHandler = (req: Request) => Response | Promise<Response>;
 
-export class Mu {
-    constructor(private readonly config: MuConfiguration) {}
+type RouteMapping = {
+    method: HTTPMethod | HTTPMethod[];
+    route: string;
+    handler: RequestHandler;
+};
 
-    async start() {
-        await http.serve((request: Request): Response => {
-            const route = this.config.router.resolve(
-                request.method,
-                request.url,
-            );
+const createRoute = (
+    method: HTTPMethod,
+    route: string,
+    handler: RequestHandler,
+): RouteMapping => {
+    return {
+        method,
+        route,
+        handler,
+    };
+};
 
-            if (!route) {
-                return new Response('', {
-                    status: 404,
-                });
-            }
-
-            return new Response();
-        }, {
-            port: this.config.port,
-        });
-    }
-}
+let idx = createRoute('GET', '/', (req) => Response.json(req.headers));
